@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
 
 import { Footer, Navbar, ProductCard } from "../components";
-import "../components/ProductCard.css";
+import "../css/ProductCard.css";
 
 const Product = () => {
   const { id } = useParams();

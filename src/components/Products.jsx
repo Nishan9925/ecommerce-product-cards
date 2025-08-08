@@ -8,7 +8,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import ProductCard from "./ProductCard";
-import "./ProductCard.css";
+import "../css/ProductCard.css";
 
 const Products = () => {
   const [data, setData] = useState([]);

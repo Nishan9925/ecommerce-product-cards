@@ -4,6 +4,7 @@ import { addCart } from "../redux/action";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import PropTypes from "prop-types";
+import "../css/ProductCard.css";
 
 const ProductCard = ({ product }) => {
   const [selectedVariant, setSelectedVariant] = useState("default");
