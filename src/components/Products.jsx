@@ -14,6 +14,8 @@ const Products = () => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
+  const [filterLoading, setFilterLoading] = useState(false); // Loading state for filters
+  const [activeFilter, setActiveFilter] = useState("all"); // Track active filter
   let componentMounted = true;
 
   const dispatch = useDispatch();
@@ -74,50 +76,98 @@ const Products = () => {
     );
   };
 
-  const filterProduct = (cat) => {
+  const filterProduct = async (cat) => {
+    setFilterLoading(true);
+    // Simulate a small delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 300));
     const updatedList = data.filter((item) => item.category === cat);
     setFilter(updatedList);
+    setActiveFilter(cat);
+    setFilterLoading(false);
+  };
+
+  const showAllProducts = async () => {
+    setFilterLoading(true);
+    // Simulate a small delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 300));
+    setFilter(data);
+    setActiveFilter("all");
+    setFilterLoading(false);
   };
 
   const ShowProducts = () => {
     return (
       <>
-        <div className="buttons text-center py-5">
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => setFilter(data)}
-          >
-            All
-          </button>
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => filterProduct("men's clothing")}
-          >
-            Men's Clothing
-          </button>
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => filterProduct("women's clothing")}
-          >
-            Women's Clothing
-          </button>
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => filterProduct("jewelery")}
-          >
-            Jewelery
-          </button>
-          <button
-            className="btn btn-outline-dark btn-sm m-2"
-            onClick={() => filterProduct("electronics")}
-          >
-            Electronics
-          </button>
+        <div className="category-filters text-center py-5">
+          <div className="filter-container">
+            <button
+              className={`filter-btn ${activeFilter === "all" ? "active" : ""}`}
+              onClick={showAllProducts}
+              disabled={filterLoading}
+            >
+              {filterLoading && activeFilter === "all" ? (
+                <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+              ) : (
+                <i className="fa fa-th-large me-2"></i>
+              )}
+              All
+            </button>
+            <button
+              className={`filter-btn ${activeFilter === "men's clothing" ? "active" : ""}`}
+              onClick={() => filterProduct("men's clothing")}
+              disabled={filterLoading}
+            >
+              {filterLoading && activeFilter === "men's clothing" ? (
+                <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+              ) : (
+                <i className="fa fa-male me-2"></i>
+              )}
+              Men's Clothing
+            </button>
+            <button
+              className={`filter-btn ${activeFilter === "women's clothing" ? "active" : ""}`}
+              onClick={() => filterProduct("women's clothing")}
+              disabled={filterLoading}
+            >
+              {filterLoading && activeFilter === "women's clothing" ? (
+                <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+              ) : (
+                <i className="fa fa-female me-2"></i>
+              )}
+              Women's Clothing
+            </button>
+            <button
+              className={`filter-btn ${activeFilter === "jewelery" ? "active" : ""}`}
+              onClick={() => filterProduct("jewelery")}
+              disabled={filterLoading}
+            >
+              {filterLoading && activeFilter === "jewelery" ? (
+                <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+              ) : (
+                <i className="fa fa-diamond me-2"></i>
+              )}
+              Jewelery
+            </button>
+            <button
+              className={`filter-btn ${activeFilter === "electronics" ? "active" : ""}`}
+              onClick={() => filterProduct("electronics")}
+              disabled={filterLoading}
+            >
+              {filterLoading && activeFilter === "electronics" ? (
+                <span className="spinner-border spinner-border-sm me-2" role="status"></span>
+              ) : (
+                <i className="fa fa-laptop me-2"></i>
+              )}
+              Electronics
+            </button>
+          </div>
         </div>
 
-        {filter.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        <div className={`product-grid ${filterLoading ? 'filtering' : ''}`}>
+          {filter.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
       </>
     );
   };
