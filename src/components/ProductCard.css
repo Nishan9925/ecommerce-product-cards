@@ -1,0 +1,219 @@
+/* Product Card Styles */
+.product-card {
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.product-image-container {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.product-image-container img {
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .product-image-container img {
+  transform: scale(1.05);
+}
+
+/* Product Overlay */
+.product-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-overlay {
+  opacity: 1;
+}
+
+/* Card Body Enhancements */
+.product-card .card-body {
+  padding: 1.25rem;
+}
+
+.product-card .card-title {
+  color: #2c3e50;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.product-card .form-select {
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card .form-select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Button Styles */
+.product-card .btn-primary {
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.product-card .btn-primary:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.product-card .btn-primary:disabled {
+  background: #6c757d;
+  transform: none;
+  box-shadow: none;
+}
+
+.product-card .btn-secondary {
+  background: #6c757d;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* Rating Stars */
+.product-card .text-warning {
+  color: #ffc107 !important;
+}
+
+/* Price Styling */
+.product-card .text-primary {
+  color: #007bff !important;
+}
+
+/* Free Shipping Badge */
+.product-card .text-success {
+  color: #28a745 !important;
+}
+
+/* Card Footer */
+.product-card .card-footer {
+  padding: 0.75rem 1.25rem 1.25rem;
+}
+
+.product-card .card-footer a {
+  color: #007bff;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.product-card .card-footer a:hover {
+  color: #0056b3;
+  text-decoration: underline !important;
+}
+
+/* Out of Stock Badge */
+.product-card .badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .product-card {
+    margin-bottom: 1rem;
+  }
+  
+  .product-card .card-body {
+    padding: 1rem;
+  }
+  
+  .product-image-container img {
+    height: 200px !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .product-card .card-title {
+    font-size: 0.85rem;
+  }
+  
+  .product-card .h5 {
+    font-size: 1.1rem;
+  }
+  
+  .product-image-container img {
+    height: 180px !important;
+  }
+}
+
+/* Loading Animation */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.product-card .spinner-border {
+  animation: pulse 1s infinite;
+}
+
+/* Accessibility Improvements */
+.product-card .form-select:focus,
+.product-card .btn:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .product-card {
+    border: 2px solid #000;
+  }
+  
+  .product-card .card-title {
+    color: #000;
+  }
+  
+  .product-card .text-muted {
+    color: #666 !important;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .product-card,
+  .product-card .product-image-container img,
+  .product-card .btn-primary,
+  .product-overlay {
+    transition: none;
+  }
+  
+  .product-card:hover {
+    transform: none;
+  }
+  
+  .product-card:hover .product-image-container img {
+    transform: none;
+  }
+}
