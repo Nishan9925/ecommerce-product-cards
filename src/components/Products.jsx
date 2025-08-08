@@ -164,9 +164,11 @@ const Products = () => {
         </div>
 
         <div className={`product-grid ${filterLoading ? 'filtering' : ''}`}>
-          {filter.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          <div className="row">
+            {filter.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
         </div>
       </>
     );
