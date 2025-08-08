@@ -67,14 +67,22 @@ const ProductCard = ({ product }) => {
             alt={product.title}
             style={{ 
               height: "250px", 
+              width: "100%",
               objectFit: "contain",
-              transition: "transform 0.3s ease"
+              transition: "transform 0.3s ease",
+              backgroundColor: "#f8f9fa"
             }}
             onMouseEnter={(e) => {
               e.target.style.transform = "scale(1.05)";
             }}
             onMouseLeave={(e) => {
               e.target.style.transform = "scale(1)";
+            }}
+            onLoad={() => console.log("ProductCard image loaded successfully:", product.image)}
+            onError={(e) => {
+              console.log("ProductCard image failed to load:", product.image);
+              // Hide the image if it fails to load
+              e.target.style.display = "none";
             }}
           />
           

@@ -5,7 +5,8 @@ import Marquee from "react-fast-marquee";
 import { useDispatch } from "react-redux";
 import { addCart } from "../redux/action";
 
-import { Footer, Navbar } from "../components";
+import { Footer, Navbar, ProductCard } from "../components";
+import "../components/ProductCard.css";
 
 const Product = () => {
   const { id } = useParams();
@@ -128,37 +129,105 @@ const Product = () => {
       <>
         <div className="py-4 my-4">
           <div className="d-flex">
-            {similarProducts.map((item) => {
+            {similarProducts.slice(0, 4).map((item) => {
+              console.log("Product item:", item); // Debug log
+              console.log("Image URL:", item.image); // Debug log
+              
               return (
-                <div key={item.id} className="card mx-4 text-center">
-                  <img
-                    className="card-img-top p-3"
-                    src={item.image}
-                    alt="Card"
-                    height={300}
-                    width={300}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">
-                      {item.title.substring(0, 15)}...
-                    </h5>
-                  </div>
-                  {/* <ul className="list-group list-group-flush">
-                    <li className="list-group-item lead">${product.price}</li>
-                  </ul> */}
-                  <div className="card-body">
-                    <Link
-                      to={"/product/" + item.id}
-                      className="btn btn-dark m-1"
-                    >
-                      Buy Now
-                    </Link>
-                    <button
-                      className="btn btn-dark m-1"
-                      onClick={() => addProduct(item)}
-                    >
-                      Add to Cart
-                    </button>
+                <div key={item.id} className="mx-4" style={{ width: "280px", flexShrink: 0 }}>
+                  <div className="card product-card h-100 shadow-sm border-0">
+                    {/* Product Image */}
+                    <div className="product-image-container position-relative">
+                      <img
+                        className="card-img-top p-3"
+                        src={item.image}
+                        alt={item.title}
+                        style={{ 
+                          height: "200px", 
+                          width: "100%",
+                          objectFit: "contain",
+                          transition: "transform 0.3s ease",
+                          backgroundColor: "#f8f9fa",
+                          border: "1px solid #dee2e6"
+                        }}
+                        onLoad={() => console.log("Image loaded successfully:", item.image)}
+                        onError={(e) => {
+                          console.log("Image failed to load:", item.image);
+                          // Hide the image if it fails to load
+                          e.target.style.display = "none";
+                        }}
+                      />
+                      
+                      {/* Quick View Overlay */}
+                      <div className="product-overlay">
+                        <Link 
+                          to={`/product/${item.id}`}
+                          className="btn btn-outline-light btn-sm"
+                        >
+                          Quick View
+                        </Link>
+                      </div>
+                    </div>
+
+                    {/* Card Body */}
+                    <div className="card-body d-flex flex-column">
+                      {/* Product Category */}
+                      <small className="text-muted text-uppercase mb-1">
+                        {item.category}
+                      </small>
+                      
+                      {/* Product Title */}
+                      <h6 className="card-title fw-bold mb-2" style={{ 
+                        fontSize: "0.9rem",
+                        lineHeight: "1.3",
+                        minHeight: "2.4rem"
+                      }}>
+                        {item.title.length > 40 
+                          ? `${item.title.substring(0, 40)}...` 
+                          : item.title
+                        }
+                      </h6>
+                      
+                      {/* Rating */}
+                      <div className="mb-2">
+                        <span className="text-warning">
+                          {[...Array(5)].map((_, i) => (
+                            <i 
+                              key={i} 
+                              className={`fa fa-star${i < Math.floor(item.rating?.rate || 0) ? '' : '-o'}`}
+                              style={{ fontSize: "0.8rem" }}
+                            />
+                          ))}
+                        </span>
+                        <small className="text-muted ms-1">
+                          ({item.rating?.count || 0})
+                        </small>
+                      </div>
+                      
+                      {/* Price */}
+                      <div className="mb-3">
+                        <span className="h5 fw-bold text-primary mb-0">
+                          ${item.price}
+                        </span>
+                        {item.price > 50 && (
+                          <small className="text-success ms-2">
+                            <i className="fa fa-truck me-1"></i>
+                            Free Shipping
+                          </small>
+                        )}
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="mt-auto">
+                        <button
+                          className="btn btn-primary w-100 btn-sm"
+                          onClick={() => addProduct(item)}
+                        >
+                          <i className="fa fa-shopping-cart me-2"></i>
+                          Add to Cart
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               );
@@ -168,14 +237,17 @@ const Product = () => {
       </>
     );
   };
+  
   return (
     <>
       <Navbar />
       <div className="container">
         <div className="row">{loading ? <Loading /> : <ShowProduct />}</div>
+        
+        {/* Desktop Similar Products */}
         <div className="row my-5 py-5">
           <div className="d-none d-md-block">
-          <h2 className="">You may also Like</h2>
+            <h2 className="mb-4">You may also Like</h2>
             <Marquee
               pauseOnHover={true}
               pauseOnClick={true}
@@ -183,6 +255,37 @@ const Product = () => {
             >
               {loading2 ? <Loading2 /> : <ShowSimilarProduct />}
             </Marquee>
+          </div>
+        </div>
+
+        {/* Mobile Similar Products */}
+        <div className="row my-5 py-5 d-md-none">
+          <div className="col-12">
+            <h2 className="mb-4">You may also Like</h2>
+            {loading2 ? (
+              <div className="row">
+                <div className="col-6 mb-3">
+                  <Skeleton height={400} />
+                </div>
+                <div className="col-6 mb-3">
+                  <Skeleton height={400} />
+                </div>
+                <div className="col-6 mb-3">
+                  <Skeleton height={400} />
+                </div>
+                <div className="col-6 mb-3">
+                  <Skeleton height={400} />
+                </div>
+              </div>
+            ) : (
+              <div className="row">
+                {similarProducts.slice(0, 4).map((item) => (
+                  <div key={item.id} className="col-6 mb-3">
+                    <ProductCard product={item} />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
